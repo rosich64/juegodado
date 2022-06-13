@@ -23,6 +23,7 @@
   font-size: 30px;
 }
 
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .grid-container {
@@ -33,8 +34,13 @@
 * {
   box-sizing: border-box;
 }
-
-
+@media (max-width: 650px){   
+  html, body {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+ }
+}
+ 
 
 
 </style>
@@ -42,12 +48,17 @@
 <body>
 <h1 style="text-align: center ;" >Si acertás ganas el doble de lo apostado, sino sólo perdes lo apostado.</h1>
 <br>
+<div style="text-align:center" >
+  <button onclick="location.reload()" style="font-size:24px;" >Volver a intentar</button>
+  
+</div>
+<br>
 
 <div class="grid-container">
 
     <div class="grid-item item1">
         <p>Ingresá un numero entre 1 y 6</p>
-        <input  id="numero" type="text">
+        <input  id="numero" type="text" required >
     </div>
 
     <div class="grid-item item2">
@@ -56,7 +67,7 @@
 
     <div class="grid-item item3">
         <p>Cuánto queres apostar?</p>
-        <input type="text" name="" id="importe">
+        <input type="text" name="" id="importe" required>
     </div>
 
     <div class="grid-item item4">
@@ -76,9 +87,22 @@
 <script>
     
     document.querySelector(".item2").innerHTML="Tu wallet tiene: "+ "50" + " euros"
-    var wallet =50
+    var wallet=50
+    /*function resetear(){
+     wallet=50
+      document.getElementById("numero").value=""
+        document.getElementById("importe").value=""
+        document.querySelector(".item4").innerHTML=""
+        document.querySelector(".item6").innerHTML=""
+        document.querySelector(".item2").innerHTML="Tu wallet tiene: "+ "50" + " euros"
+        
+      }*/
+    
     function funcionDado(){
-    if (wallet>=parseInt((document.getElementById("importe").value))){
+      let numero=parseInt((document.getElementById("numero").value))
+      let importe=parseInt((document.getElementById("importe").value))
+      
+    if (wallet>=importe && importe>0 && numero!=="" && importe!=="" && numero>=1 && numero<7) {
        
  
     
@@ -87,8 +111,7 @@
       /*var wallet =50*/
       nroRandom=Math.floor(Math.random() * (6) ) + 1;
       /*document.getElementById("nrodado").innerHTML=nroRandom*/
-      let numero=parseInt((document.getElementById("numero").value))
-      let importe=parseInt((document.getElementById("importe").value))
+      
       /*compara random con numero*/
 
       if (nroRandom===(numero)){
@@ -101,7 +124,7 @@
           wallet-=importe
           if (wallet===0){
             document.querySelector(".item4").innerHTML="FIN DEL JUEGO PERDISTE TODA TU PLATA!!!! "  
-            
+            document.querySelector(".item2").innerHTML="Tu wallet tiene: "+  wallet + " euros"
             
             
            }
@@ -160,10 +183,31 @@ switch(nroRandom) {
 
 
 else {
+  if (wallet<importe){
     document.querySelector(".item4").innerHTML="Dinero insuficiente!!!! Volver a intentar"
     document.getElementById("numero").value=""
         document.getElementById("importe").value=""
+  }
+  else if (importe<=0){
+    document.querySelector(".item4").innerHTML="Ingrese importe positivo!!!! Volver a intentar"
+    document.getElementById("numero").value=""
+        document.getElementById("importe").value=""
+  }
+
+  else if (numero <1 || numero >6 ) {
+    document.querySelector(".item4").innerHTML=" Ingresá un número entre 1 y 6"
+    document.getElementById("numero").value=""
+        document.getElementById("importe").value=""
+      }   
+
+    else{
+      document.querySelector(".item4").innerHTML="No ingresaste nada, volvé a intentar"
+    document.getElementById("numero").value=""
+        document.getElementById("importe").value=""
+
+    }  
 }
+
 
 }
 
